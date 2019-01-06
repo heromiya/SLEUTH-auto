@@ -221,6 +221,7 @@ PREDICTION_STOP_DATE=_PRED_END
 URBAN_DATA= LOCNAME.urban._MODEL_YEAR_1.gif 
 URBAN_DATA= LOCNAME.urban._MODEL_YEAR_2.gif 
 URBAN_DATA= LOCNAME.urban._MODEL_YEAR_3.gif 
+URBAN_DATA= LOCNAME.urban._MODEL_YEAR_4.gif 
 # 
 # Road data GIFs 
 #  format:  <location>.roads.<date>.[<user info>].gif 
@@ -228,12 +229,13 @@ URBAN_DATA= LOCNAME.urban._MODEL_YEAR_3.gif
 ROAD_DATA= LOCNAME.roads._MODEL_YEAR_1.gif
 ROAD_DATA= LOCNAME.roads._MODEL_YEAR_2.gif
 ROAD_DATA= LOCNAME.roads._MODEL_YEAR_3.gif
+ROAD_DATA= LOCNAME.roads._MODEL_YEAR_4.gif
 # 
 # Landuse data GIFs 
 #  format:  <location>.landuse.<date>.[<user info>].gif 
 # 
 LANDUSE_DATA= LOCNAME.landuse._MODEL_YEAR_1.gif
-LANDUSE_DATA= LOCNAME.landuse._MODEL_YEAR_3.gif
+LANDUSE_DATA= LOCNAME.landuse._MODEL_YEAR_4.gif
 EXCLUDED_DATA= LOCNAME.excluded.gif 
 # 
 # Slope data GIF 
@@ -412,13 +414,11 @@ DELTATRON_COLOR=  0X005A00 # index 5 age = 5 year
 #       information see our PROJECT GIGALOPOLIS web site
 #       (www.ncgia.ucsb.edu/project/gig/About/abGrowth.htm) 
 #       and publications (and/or grep 'self modification' in code). 
-ROAD_GRAV_SENSITIVITY=0.01 
-SLOPE_SENSITIVITY=0.1 
-CRITICAL_LOW=0.97 
-CRITICAL_HIGH=1.3 
-#CRITICAL_LOW=0.0 
-#CRITICAL_HIGH=10000000000000.0 
+ROAD_GRAV_SENSITIVITY=_ROAD_GRAV_SENSITIVITY 
+SLOPE_SENSITIVITY=_SLOPE_SENSITIVITY
+CRITICAL_LOW=_CRITICAL_LOW
+CRITICAL_HIGH=_CRITICAL_HIGH
 CRITICAL_SLOPE=15.0 
-BOOM=1.01 
-BUST=0.09 
+BOOM=_BOOM 
+BUST=_BUST 
   
