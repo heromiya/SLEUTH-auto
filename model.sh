@@ -11,10 +11,10 @@ export RES=0.0043119132
 export RESMET=480
 
 # Model setting
-MODEL_YEAR_1=2005
-MODEL_YEAR_2=2009
-MODEL_YEAR_3=2015
-MODEL_YEAR_4=2018
+export MODEL_YEAR_1=2005
+export MODEL_YEAR_2=2009
+export MODEL_YEAR_3=2015
+export MODEL_YEAR_4=2017
 
 # Prediction setting
 export PRED_START=$MODEL_YEAR_1
@@ -33,40 +33,25 @@ export SLOPE_SENSITIVITY=0.1
 Bin/mkdir.exe -p Input/$LOCNAME
 Bin/mkdir.exe -p Output/${LOCNAME}_pre Output/${LOCNAME}_test Output/${LOCNAME}
 
-XMIN=$(echo $LONMIN $LATMIN | proj +proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs | Bin/cut.exe -f 1)
-YMIN=$(echo $LONMIN $LATMIN | proj +proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs | Bin/cut.exe  -f 2)
-XMAX=$(echo $LONMAX $LATMAX | proj +proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs | Bin/cut.exe  -f 1)
-YMAX=$(echo $LONMAX $LATMAX | proj +proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs | Bin/cut.exe  -f 2)
+export XMIN=$(echo $LONMIN $LATMIN | proj +proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs | Bin/cut.exe -f 1)
+export YMIN=$(echo $LONMIN $LATMIN | proj +proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs | Bin/cut.exe  -f 2)
+export XMAX=$(echo $LONMAX $LATMAX | proj +proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs | Bin/cut.exe  -f 1)
+export YMAX=$(echo $LONMAX $LATMAX | proj +proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs | Bin/cut.exe  -f 2)
 
 WARPOPTS="-te $LONMIN $LATMIN $LONMAX $LATMAX -tr $RES $RES -ot Byte -r mode -overwrite -co compress=deflate"
-for YEAR in $MODEL_YEAR_1 $MODEL_YEAR_2 $MODEL_YEAR_3; do
+for YEAR in $MODEL_YEAR_1 $MODEL_YEAR_2 $MODEL_YEAR_3 $MODEL_YEAR_4; do
 	export YEAR
 	Bin/rm.exe -f Src/$LOCNAME.urban.$YEAR.warp.tif Src/$LOCNAME.roads.$YEAR.tif Src/$LOCNAME.landuse.$YEAR.warp.tif Src/$LOCNAME.excluded.warp.tif
-	make Input/$LOCNAME/$LOCNAME.urban.$YEAR.gif Input/$LOCNAME/$LOCNAME.roads.$YEAR.gif Input/$LOCNAME/$LOCNAME.landuse.$YEAR.gif
+	Bin/make Input/$LOCNAME/$LOCNAME.urban.$YEAR.gif Input/$LOCNAME/$LOCNAME.roads.$YEAR.gif Input/$LOCNAME/$LOCNAME.landuse.$YEAR.gif
 done
 
 Bin/rm.exe -f Src/SRTM.3857.tif Src/$LOCNAME.slope.tif Src/$LOCNAME.slope.4326.tif Src/$LOCNAME.hillshade.tif Src/$LOCNAME.hillshade.4326.tif
-make Input/$LOCNAME/$LOCNAME.excluded.gif Input/$LOCNAME/$LOCNAME.slope.gif Input/$LOCNAME/$LOCNAME.hillshade.gif
+Bin/make Input/$LOCNAME/$LOCNAME.excluded.gif Input/$LOCNAME/$LOCNAME.slope.gif Input/$LOCNAME/$LOCNAME.hillshade.gif
 
 cd Scenarios
 for SCENARIO in calibrate predict; do
 	export SCENARIO
-	make -f ../Makefile.mk 
-	../Bin/sed.exe -e \
-	"s/_MODEL_YEAR_1/${MODEL_YEAR_1}/g; \
-	s/_MODEL_YEAR_2/${MODEL_YEAR_2}/g; \
-	s/_MODEL_YEAR_3/${MODEL_YEAR_3}/g; \
-	s/_MODEL_YEAR_4/${MODEL_YEAR_4}/g; \
-	s/LOCNAME/${LOCNAME}/g; \
-	s/_PRED_START/${PRED_START}/g; \
-	s/_PRED_END/${PRED_END}/g; \
-	s/_CRITICAL_LOW/${CRITICAL_LOW}/g; \
-	s/_CRITICAL_HIGH/${CRITICAL_HIGH}/g; \
-	s/_BOOM/${BOOM}/g; \
-	s/_BUST/${BUST}/g; \
-	s/_ROAD_GRAV_SENSITIVITY/${ROAD_GRAV_SENSITIVITY}/g; \
-	s/_SLOPE_SENSITIVITY/${SLOPE_SENSITIVITY}/g;" \
-	scenario.template_$SCENARIO > scenario.${LOCNAME}_$SCENARIO
+	../Bin/make -f ../Makefile scenario.${LOCNAME}_$SCENARIO
 	../Bin/grow.exe $SCENARIO scenario.${LOCNAME}_$SCENARIO
 done
 

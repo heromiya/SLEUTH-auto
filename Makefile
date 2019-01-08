@@ -5,14 +5,14 @@ Src/$(LOCNAME).urban.$(YEAR).warp.tif: Src/$(LOCNAME).urban.$(YEAR).tif
 Input/$(LOCNAME)/$(LOCNAME).urban.$(YEAR).gif: Src/$(LOCNAME).urban.$(YEAR).warp.tif
 	gdal_translate -of GIF $< $@
 
-Src/$(LOCNAME).roads.$YEAR.tif : Src/ne_10m_roads.shp
+Src/$(LOCNAME).roads.$(YEAR).tif : Src/ne_10m_roads.shp
 	gdal_rasterize -burn 255 -init 0 -ot Byte -tr $(RES) $(RES) -te $(LONMIN) $(LATMIN) $(LONMAX) $(LATMAX) -co COMPRESS=Deflate $< $@
 Input/$(LOCNAME)/$(LOCNAME).roads.$(YEAR).gif: Src/$(LOCNAME).roads.$(YEAR).tif
 	gdal_translate -of GIF $< $@
 
 Src/$(LOCNAME).landuse.$(YEAR).warp.tif: Src/LC$(YEAR).tif
 	gdalwarp $(WARPOPTS) $< $@
-Input/$(LOCNAME)/$(LOCNAME).landuse.$(YEAR).gif Src/$(LOCNAME).landuse.$(YEAR).warp.tif
+Input/$(LOCNAME)/$(LOCNAME).landuse.$(YEAR).gif: Src/$(LOCNAME).landuse.$(YEAR).warp.tif
 	gdal_translate -of GIF $< $@
 
 Src/$(LOCNAME).excluded.tif: Src/LC$(MODEL_YEAR_1).tif
