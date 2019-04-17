@@ -1,6 +1,5 @@
 #! /bin/bash
 
-export WARPOPTS="-co COMPRESS=Deflate"
 # Extent parameters
 export LOCNAME=demo
 export LONMIN=99.9
@@ -38,7 +37,7 @@ export YMIN=$(echo $LONMIN $LATMIN | proj +proj=merc +a=6378137 +b=6378137 +lat_
 export XMAX=$(echo $LONMAX $LATMAX | proj +proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs | Bin/cut.exe  -f 1)
 export YMAX=$(echo $LONMAX $LATMAX | proj +proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs | Bin/cut.exe  -f 2)
 
-WARPOPTS="-te $LONMIN $LATMIN $LONMAX $LATMAX -tr $RES $RES -ot Byte -r mode -overwrite -co compress=deflate"
+export WARPOPTS="-t_srs EPSG:4326 -te $LONMIN $LATMIN $LONMAX $LATMAX -tr $RES $RES -ot Byte -r mode -overwrite -co COMPRESS=Deflate"
 for YEAR in $MODEL_YEAR_1 $MODEL_YEAR_2 $MODEL_YEAR_3 $MODEL_YEAR_4; do
 	export YEAR
 	Bin/rm.exe -f Src/$LOCNAME.urban.$YEAR.warp.tif Src/$LOCNAME.roads.$YEAR.tif Src/$LOCNAME.landuse.$YEAR.warp.tif Src/$LOCNAME.excluded.warp.tif

@@ -199,8 +199,8 @@ PREDICTION_ROAD_BEST_FIT=  5
 # than any of the road dates, the last road file on the list will be 
 # used. The prediction run will terminate at PREDICTION_STOP_DATE. 
 # 
-PREDICTION_START_DATE=2016
-PREDICTION_STOP_DATE=2030
+PREDICTION_START_DATE=_PRED_START
+PREDICTION_STOP_DATE=_PRED_END
 
 # X. INPUT IMAGES 
 # The model expects grayscale, GIF image files with file name 

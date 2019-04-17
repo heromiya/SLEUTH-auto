@@ -39,7 +39,7 @@ Input/$(LOCNAME)/$(LOCNAME).hillshade.gif: Src/$(LOCNAME).hillshade.4326.tif
 	gdal_translate -of GIF $< $@
 
 scenario.$(LOCNAME)_$(SCENARIO): scenario.template_$(SCENARIO)
-	../Bin/sed.exe -e \
+	..\Bin\sed.exe -e \
 	"s/_MODEL_YEAR_1/$(MODEL_YEAR_1)/g; \
 	s/_MODEL_YEAR_2/$(MODEL_YEAR_2)/g; \
 	s/_MODEL_YEAR_3/$(MODEL_YEAR_3)/g; \
